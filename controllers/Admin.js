@@ -27,12 +27,47 @@ module.exports.getAllvideos = (res) => {
   });
 };
 
+module.exports.getAllComediesVideos = (res,query) => {
+  console.log("Query : ",query)
+  Films.find({"category_name": query },(err, doc) => {
+    if (err) {
+      res.json(false);
+    } else {
+      res.json(doc);
+    }
+  });
+};
+
+module.exports.getAllActionsVideos = (res,query) => {
+  console.log("Query : ",query)
+  Films.find({"category_name": query },(err, doc) => {
+    if (err) {
+      res.json(false);
+    } else {
+      res.json(doc);
+    }
+  });
+};
+
+module.exports.getAllAnimationVideos = (res,query) => {
+  console.log("Query : ",query)
+  Films.find({"category_name": query },(err, doc) => {
+    if (err) {
+      res.json(false);
+    } else {
+      res.json(doc);
+    }
+  });
+};
+
+
 module.exports.getVideosById = (res, id) => {
   Films.find({ _id: id }, (err, doc) => {
     if (err) {
       res.json({ message: err.message });
     } else {
       console.log(doc.image)
+      res.json()
       res.sendFile(doc[0].image, { root: '../SevenVideoApi/uploads/videosImages' });
     }
   });

@@ -2,17 +2,20 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var filmSchema = new Schema({
-  titre: String,
+  title: String,
   description: String,
-  relisateur: String,
-  dateDeSortie: Date,
+  realisator: String,
   createdDate: { type: Date, default: Date.now },
-  categories_id: {
-    type: Object,
-    required:true,
+  category_id: {
+    type: String,
+    required: true,
   },
-  dateDeSortie: { type: Date, default: Date.now },
-  like: String,
+  category_name: {
+    type: String,
+    required: true,
+  },
+  outDate: { type: Date, default: Date.now },
+  likes: String,
   image: {
     type: String,
     required: true,

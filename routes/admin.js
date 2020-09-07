@@ -8,7 +8,6 @@ const admin = require("../controllers/Admin.js");
 //multer config
 const upload = require("../multer/storage.js");
 
-
 //----- Films Request ----------//
 route.post("/saveVideo", (req, res) => {
   //let multer manage the requests
@@ -26,16 +25,14 @@ route.post("/saveVideo", (req, res) => {
         console.log(err.message);
       } else {
         const data = {};
-        data.titre = req.body.titre;
+        data.title = req.body.title;
         data.description = req.body.description;
-        data.relisateur = req.body.message;
-        data.like = req.body.like;
+        data.realisator = req.body.realisator;
+        data.likes = req.body.likes;
         data.image = req.file.filename;
         data.video = req.body.video;
-        data.categories_id = {
-          id: req.body.categories_id,
-          nom: req.body.category_name,
-        };
+        data.category_id = req.body.category_id,
+        data.category_name = req.body.category_name,
         admin.saveVideos(res, data);
       }
     }
@@ -43,9 +40,34 @@ route.post("/saveVideo", (req, res) => {
 });
 
 route.get("/videos", (req, res) => {
-  let id = req.params.platform_id;
-  console.log(id);
-  admin.getAllvideos(res);
+ 
+  const searchParameter = req.query.by;
+  console.log("searchParameter :", searchParameter)
+  switch (searchParameter) {
+    case "Comedies":
+      admin.getAllComediesVideos(res,searchParameter);
+      break;
+    case "Actions":
+      admin.getAllActionsVideos(res,searchParameter)
+      break;
+    case "Animations":
+      admin.getAllAnimationVideos(res,searchParameter)
+
+      break;
+    case "all":
+      admin.getAllvideos(res);
+      break;
+  }
+  // if (req.query.by=="all") {
+  //   admin.getAllvideos(res);
+
+  // } else if(req.query.by == "comedies") {
+
+  // }else if(req.query.by == "animations"){
+
+  // }else if(req.query.by == "animations"){
+
+  // }
 });
 
 route.get("/videos/:id", (req, res) => {
@@ -64,17 +86,14 @@ route.put("/videos/:id", (req, res) => {
   let id = req.params.id;
   console.log("id :", id);
   const data = {};
-  data.titre = req.body.titre;
+  data.title = req.body.title;
   data.description = req.body.description;
-  data.relisateur = req.body.message;
-  data.like = req.body.like;
+  data.realisator = req.body.realisator;
+  data.likes = req.body.likes;
   data.image = req.file.filename;
-  data.video = req.body.filename;
-  data.categories_id = {
-    id: req.body.categories_id,
-    nom: req.body.category_name,
-  };
-
+  data.video = req.body.video;
+  data.category_id = category_id,
+  data.category_name = req.body.category_name,
   admin.updateVideos(res, data, id);
 });
 
@@ -82,9 +101,8 @@ route.put("/videos/:id", (req, res) => {
 route.post("/saveCategory", (req, res) => {
   console.log("SaveRequest :", req.body);
   const data = {};
-  data.nom = req.body.nom;
-  admin.saveCategory(res,data)
- 
+  data.name = req.body.name;
+  admin.saveCategory(res, data);
 });
 
 route.get("/categories", (req, res) => {
@@ -108,7 +126,7 @@ route.delete("/categories/:id", (req, res) => {
 route.put("/categories/:id", (req, res) => {
   let id = req.params.id;
   const data = {};
-  data.nom = req.body.nom;
+  data.name = req.body.name;
   console.log("id :", id);
   admin.updateCategory(res, data, id);
 });
