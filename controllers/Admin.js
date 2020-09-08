@@ -38,9 +38,20 @@ module.exports.getAllComediesVideos = (res,query) => {
   });
 };
 
-module.exports.getAllActionsVideos = (res,query) => {
+module.exports.getMustLikedVideos = (res) => {
+  Films.find({"likes": {$gt: 2} },(err, doc) => {
+    if (err) {
+      res.json(false);
+    } else {
+      res.json(doc);
+    }
+  });
+};
+
+module.exports.getAllActionsVideos = (res,query,id) => {
   console.log("Query : ",query)
-  Films.find({"category_name": query },(err, doc) => {
+  // Films.find({"category_name": query , "_id" :{ $nin: id}},(err, doc) => {
+    Films.find({"category_name": query},(err, doc) => {
     if (err) {
       res.json(false);
     } else {

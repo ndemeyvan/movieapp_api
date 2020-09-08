@@ -40,19 +40,22 @@ route.post("/saveVideo", (req, res) => {
 });
 
 route.get("/videos", (req, res) => {
- 
   const searchParameter = req.query.by;
+  const id = req.query.id
   console.log("searchParameter :", searchParameter)
+  console.log("Id Query :",req.query.id)
   switch (searchParameter) {
     case "Comedies":
       admin.getAllComediesVideos(res,searchParameter);
       break;
+      case "MustLiked":
+        admin.getMustLikedVideos(res);
+        break;
     case "Actions":
       admin.getAllActionsVideos(res,searchParameter)
       break;
     case "Animations":
       admin.getAllAnimationVideos(res,searchParameter)
-
       break;
     case "all":
       admin.getAllvideos(res);
